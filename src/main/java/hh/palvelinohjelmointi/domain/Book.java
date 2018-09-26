@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Book {
@@ -17,17 +19,20 @@ public class Book {
     private String isbn;
 	private int publishYear;
 	private Date dateAdded = new Date();
-
-
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+	private Category category;
+    
     public Book() {}
 
-	public Book(String bookName, String authorName, String isbn, int publishYear) {
+	public Book(String bookName, String authorName, String isbn, int publishYear, Category category) {
 		super();
 		this.bookName = bookName;
 		this.authorName = authorName;
 		this.isbn = isbn;
 		this.publishYear = publishYear;
 		this.dateAdded = new Date();
+		this.category = category;
 	}
 
     public String getIsbn() {
@@ -74,9 +79,23 @@ public class Book {
 		return dateAdded;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", authorName=" + authorName + ", bookName=" + bookName + ", isbn=" + isbn
-				+ ", publishYear=" + publishYear + ", dateAdded=" + dateAdded + "]";
+		if (this.category != null) {
+			return "Book [id=" + id + ", authorName=" + authorName + ", bookName=" + bookName + ", isbn=" + isbn
+				+ ", publishYear=" + publishYear + ", dateAdded=" + dateAdded +  " department =" + this.getCategory() + "]";
+		}
+		else {
+			return "Book [id=" + id + ", authorName=" + authorName + ", bookName=" + bookName + ", isbn=" + isbn
+					+ ", publishYear=" + publishYear + ", dateAdded=" + dateAdded + "]";
+		}
 	}
 }

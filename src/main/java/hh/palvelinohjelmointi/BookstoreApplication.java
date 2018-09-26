@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 
 import hh.palvelinohjelmointi.domain.Book;
 import hh.palvelinohjelmointi.domain.BookRepository;
+import hh.palvelinohjelmointi.domain.Category;
+import hh.palvelinohjelmointi.domain.CategoryRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -20,13 +22,19 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository repository) {
+	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository categoryRepository) {
 		return (args) -> {
-			log.info("save a couple of books");
-			repository.save(new Book("Best of Edgar Allan Poe", "Edgar Allan poe", "159494-1", 1891));
-			repository.save(new Book("Täällä Pohjantähden Alla", "Väinö Linna","159495-1", 1955));	
+			log.info("Saving a couple of books and categories..");
+			categoryRepository.save(new Category("Kaunokirjallisuus"));
+			categoryRepository.save(new Category("Fiktio"));
+			categoryRepository.save(new Category("Fantasia"));
 			
-			log.info("fetching all books");
+			repository.save(new Book("Best of Edgar Allan Poe", "Edgar Allan poe", "159494-1", 1891, 
+					categoryRepository.findByName("Kaunokirjallisuus").get(0)));
+			repository.save(new Book("Täällä Pohjantähden Alla", "Väinö Linna","159495-1", 1955, 
+					categoryRepository.findByName("Kaunokirjallisuus").get(0)));	
+			
+			log.info("Fetching all books..");
 			for (Book book : repository.findAll()) {
 				log.info(book.toString());
 			}
