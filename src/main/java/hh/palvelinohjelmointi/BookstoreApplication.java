@@ -22,20 +22,20 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository categoryRepository) {
+	public CommandLineRunner bookDemo(BookRepository bookRepository, CategoryRepository categoryRepository) {
 		return (args) -> {
 			log.info("Saving a couple of books and categories..");
 			categoryRepository.save(new Category("Kaunokirjallisuus"));
 			categoryRepository.save(new Category("Fiktio"));
 			categoryRepository.save(new Category("Fantasia"));
 			
-			repository.save(new Book("Best of Edgar Allan Poe", "Edgar Allan poe", "159494-1", 1891, 
+			bookRepository.save(new Book("Best of Edgar Allan Poe", "Edgar Allan poe", "159494-1", 1891, 
 					categoryRepository.findByName("Kaunokirjallisuus").get(0)));
-			repository.save(new Book("Täällä Pohjantähden Alla", "Väinö Linna","159495-1", 1955, 
+			bookRepository.save(new Book("Täällä Pohjantähden Alla", "Väinö Linna","159495-1", 1955, 
 					categoryRepository.findByName("Kaunokirjallisuus").get(0)));	
 			
 			log.info("Fetching all books..");
-			for (Book book : repository.findAll()) {
+			for (Book book : bookRepository.findAll()) {
 				log.info(book.toString());
 			}
 

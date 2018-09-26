@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import hh.palvelinohjelmointi.domain.Book;
 import hh.palvelinohjelmointi.domain.BookRepository;
-
+import hh.palvelinohjelmointi.domain.Category;
+import hh.palvelinohjelmointi.domain.CategoryRepository;
 @Controller
 public class BookController {
 	@Autowired
-	private BookRepository repository; 
+	private BookRepository repository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
     @RequestMapping(value="/booklist")
     public String bookList(Model model) {	
@@ -24,6 +28,7 @@ public class BookController {
     @RequestMapping(value = "/add")
     public String addBook(Model model){
     	model.addAttribute("book", new Book());
+    	model.addAttribute("categories", categoryRepository.findAll());
         return "addbook";
     }     
     
