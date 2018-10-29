@@ -19,7 +19,7 @@ import hh.palvelinohjelmointi.domain.CategoryRepository;
 @Controller
 public class BookController {
 	@Autowired
-	private BookRepository repository;
+	private BookRepository bookRepository;
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -33,7 +33,7 @@ public class BookController {
 	
     @RequestMapping(value="/booklist")
     public String bookList(Model model) {	
-        model.addAttribute("books", repository.findAll());
+        model.addAttribute("books", bookRepository.findAll());
         return "booklist";
     }
   
@@ -47,32 +47,32 @@ public class BookController {
     
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveBook(Book book){
-        repository.save(book);
+    	bookRepository.save(book);
         return "redirect:booklist";
     }
     
       // REST
       @RequestMapping(value="/books", method = RequestMethod.GET)
       public @ResponseBody List<Book> bookListRest() {	
-        return (List<Book>) repository.findAll();
+        return (List<Book>) bookRepository.findAll();
     }    
 
       // REST
      @RequestMapping(value="/book/{id}", method = RequestMethod.GET)
      public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long bookId) {	
-    	return repository.findById(bookId);
+    	return bookRepository.findById(bookId);
     }
       
 	@RequestMapping (value="/edit/{id}")
 	public String editBook(@PathVariable("id") Long bookId,Model model){
-		model.addAttribute("book", repository.findById(bookId));
+		model.addAttribute("book", bookRepository.findById(bookId));
 		return "editbook";
 	}
 	
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteBook(@PathVariable("id") Long bookId, Model model) {
-    	repository.deleteById(bookId);
+    	bookRepository.deleteById(bookId);
         return "redirect:../booklist";
     }     
 }

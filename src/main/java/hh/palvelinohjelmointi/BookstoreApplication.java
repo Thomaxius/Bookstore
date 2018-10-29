@@ -30,11 +30,13 @@ public class BookstoreApplication {
 			categoryRepository.save(new Category("Kaunokirjallisuus"));
 			categoryRepository.save(new Category("Fiktio"));
 			categoryRepository.save(new Category("Fantasia"));
+			categoryRepository.save(new Category("testcategory"));
 			
 			bookRepository.save(new Book("Best of Edgar Allan Poe", "Edgar Allan poe", "159494-1", 1891, 
 					categoryRepository.findByName("Kaunokirjallisuus").get(0)));
 			bookRepository.save(new Book("Täällä Pohjantähden Alla", "Väinö Linna","159495-1", 1955, 
-					categoryRepository.findByName("Kaunokirjallisuus").get(0)));	
+					categoryRepository.findByName("Kaunokirjallisuus").get(0)));
+
 			
 			User user1 = new User("user", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "USER", "admin@bookstore.com");
 			User user2 = new User("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "ADMIN", "admin@bookstore.com");
